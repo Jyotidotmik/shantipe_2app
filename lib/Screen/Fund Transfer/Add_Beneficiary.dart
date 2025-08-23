@@ -97,6 +97,7 @@ class _AddBeneficiaryState extends State<AddBeneficiary> {
                   width: 351,
                   height: 33,
                   child: Text(
+                    
                     'Create New Account',
                     style: TextStyle(
                       color: Color(0xff000000),
