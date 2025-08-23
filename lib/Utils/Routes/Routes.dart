@@ -109,6 +109,6 @@ class AppRoutes {
     GetPage(name: '/FundTransfer_Screen', page: () => FundtransferScreen()),
     GetPage(name: '/Fund_Resister', page: () => fundTransferRegister(
       mobile: '', contactKeyEncoded: '', fromScreen: '',),),
-      GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary(contactKeyEncoded: '',)),
+      GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary()),
   ];
 }

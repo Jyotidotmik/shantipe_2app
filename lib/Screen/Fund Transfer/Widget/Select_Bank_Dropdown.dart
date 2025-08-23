@@ -26,7 +26,7 @@ class SelectBankDropdown extends StatelessWidget {
           label,
           style: const TextStyle(
             color: Color(0xFF263238),
-            fontSize: 12,
+            fontSize: 14,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
           ),

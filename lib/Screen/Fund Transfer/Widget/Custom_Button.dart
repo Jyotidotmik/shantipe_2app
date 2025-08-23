@@ -19,7 +19,7 @@ class FtCustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final style = ElevatedButton.styleFrom(
-      backgroundColor: buttonColor ?? Colors.red[400],
+      backgroundColor: buttonColor ?? Colors.blue[400],
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     );

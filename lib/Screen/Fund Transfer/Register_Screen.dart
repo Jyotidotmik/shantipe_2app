@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import '../../Utils/Custom_AppBar.dart';
 import '../../Utils/Custom_button.dart';
+import 'Widget/Custom_Button.dart';
 import 'Widget/Custom_TextField.dart';
 
 class fundTransferRegister extends StatefulWidget {
@@ -57,6 +58,7 @@ class fundTransferRegisterState extends State<fundTransferRegister> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: const CustomAppBar(titleText: 'Register'),
       body: Stack(
         children: [
@@ -75,7 +77,7 @@ class fundTransferRegisterState extends State<fundTransferRegister> {
                         isAadharKyc = index == 0;
                       });
                     },
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     selectedColor: Colors.white,
                     fillColor: Colors.green,
                     children: const [
@@ -93,14 +95,12 @@ class fundTransferRegisterState extends State<fundTransferRegister> {
 
                   // Common Field: Mobile
                   CustomTextField(
-                    controller: mobileController,
-                    label: 'Mobile Number',
-                    hintText: "Enter Mobile Number",
-                    maxLength: 10,
-                    isNumber: true,
-                    readOnly: true,
-                  ),
-
+                      controller: pincodeController,
+                      label: 'Mobile Number',
+                      hintText: "Enter Mobile Number",
+                      maxLength: 10,
+                      isNumber: true,
+                    ),
                   if (isAadharKyc) ...[
                     // Aadhaar KYC Fields
                     const SizedBox(height: 10),
@@ -118,7 +118,7 @@ class fundTransferRegisterState extends State<fundTransferRegister> {
                       controller: emailController,
                       label: 'Email',
                       hintText: "Enter Email",
-                      // keyboardType: TextInputType.emailAddress,
+                      //keyboardType: TextInputType.emailAddress,
                     ),
                     const SizedBox(height: 10),
                     CustomTextField(
@@ -141,12 +141,15 @@ class fundTransferRegisterState extends State<fundTransferRegister> {
                       isNumber: true,
                     ),
                   ],
-                  const SizedBox(height: 30),
-                  // Submit Button
-                  // DmtCustomButton(
-                  //   onPressed: _isLoading ? null : submitForm,
-                  //   label: "Submit",
-                  // ),
+                  const SizedBox(height: 50),
+                  ///Submit Button
+                  FtCustomButton(
+                    onPressed: () {
+                      
+                    },
+                   // onPressed: _isLoading ? null : submitForm,
+                    label: "Submit",
+                  ),
                 ],
               ),
             ),
