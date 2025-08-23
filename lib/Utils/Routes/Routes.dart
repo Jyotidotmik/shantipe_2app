@@ -28,6 +28,7 @@ import 'package:shantipe_2app/Screen/QR_Scanner/QR_Scanner.dart';
 import 'package:shantipe_2app/Screen/View/SingUp_Screen.dart';
 import 'package:shantipe_2app/Screen/View/Splash_Screen.dart';
 import '../../Screen/APeS/AePS_Screen.dart';
+import '../../Screen/Fund Transfer/Add_Beneficiary.dart';
 import '../../Screen/Fund Transfer/FundLogin_Screen.dart';
 import '../../Screen/Fund Transfer/FundTransfer_Screen.dart';
 import '../../Screen/Fund Transfer/Register_Screen.dart';
@@ -106,6 +107,8 @@ class AppRoutes {
     GetPage(name: '/AePS_screen', page: () => AepsHomeScreen()),
     GetPage(name: '/Fund_Login', page: () => FundLoginScreen()),
     GetPage(name: '/FundTransfer_Screen', page: () => FundtransferScreen()),
-    GetPage(name: '/Fund_Resister', page: () => fundTransferRegister(mobile: '', contactKeyEncoded: '', fromScreen: '',),),
+    GetPage(name: '/Fund_Resister', page: () => fundTransferRegister(
+      mobile: '', contactKeyEncoded: '', fromScreen: '',),),
+      GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary(contactKeyEncoded: '',)),
   ];
 }

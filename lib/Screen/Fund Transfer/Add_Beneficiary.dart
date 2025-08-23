@@ -1,20 +1,17 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import '../../Utils/Custom_AppBar.dart';
 import '../../Utils/Custom_button.dart';
 import 'Widget/Select_Bank_Dropdown.dart';
 
-class NewBeneficiaryFormScreen extends StatefulWidget {
+class AddBeneficiary extends StatefulWidget {
   final String contactKeyEncoded;
-  NewBeneficiaryFormScreen({required this.contactKeyEncoded});
+  AddBeneficiary({required this.contactKeyEncoded});
   @override
-  _FormCashScreenState createState() => _FormCashScreenState();
+  _AddBeneficiaryState createState() => _AddBeneficiaryState();
 }
 
-class _FormCashScreenState extends State<NewBeneficiaryFormScreen> {
+class _AddBeneficiaryState extends State<AddBeneficiary> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController bankId = TextEditingController();
   final TextEditingController accountController = TextEditingController();
@@ -102,7 +99,7 @@ class _FormCashScreenState extends State<NewBeneficiaryFormScreen> {
                   child: Text(
                     'Create New Account',
                     style: TextStyle(
-                      color: Color(0xFFC63F3F),
+                      color: Color(0xff000000),
                       fontSize: 22,
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w600,
