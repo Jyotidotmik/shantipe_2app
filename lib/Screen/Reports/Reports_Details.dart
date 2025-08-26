@@ -115,6 +115,7 @@ class _ReportDetailScreenState extends State<ReportDetailScreen> {
     _scaffoldKey.currentState?.openDrawer();
   }
 
+  // ignore: unused_element
   void _closeFilterDrawer() {
     Navigator.of(context).pop();
   }

@@ -49,7 +49,6 @@ class _FundLoginScreenState extends State<FundLoginScreen> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xff0080FF),
-                    foregroundColor: Colors.black,
                     padding: const EdgeInsets.symmetric(
                       horizontal: 100,
                       vertical: 15,

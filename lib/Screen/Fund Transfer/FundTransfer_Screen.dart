@@ -1,11 +1,13 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Utils/Custom_AppBar.dart';
+import 'Add_Beneficiary.dart';
 import 'Register_Screen.dart';
-
-class FundtransferScreen extends StatelessWidget {
+import 'Widget/Bank_CardWidgwet.dart';
+class FundtransferScreen extends StatefulWidget {
   const FundtransferScreen({super.key});
 
   static const int minLimit = 300;
@@ -13,9 +15,50 @@ class FundtransferScreen extends StatelessWidget {
   static const int score = 573;
 
   @override
-  Widget build(BuildContext context) {
-    final progress = (score - minLimit) / (maxLimit - minLimit);
+  State<FundtransferScreen> createState() => _FundtransferScreenState();
+}
 
+class _FundtransferScreenState extends State<FundtransferScreen> {
+  final List<Map<String, dynamic>> _beneficiaries = [];
+
+  // Alternative method using direct navigation
+  void _addNewBeneficiary() async {
+    print("Opening AddBeneficiary screen...");
+    final prefs = await SharedPreferences.getInstance();
+    // Try direct navigation first
+    final result = await Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => const AddBeneficiary(),
+      ),
+    );
+    print("Received result: $result");
+    if (result != null) {
+      print("Adding beneficiary to list...");
+      setState(() {
+        final beneficiaryMap = Map<String, dynamic>.from(result as Map);
+        _beneficiaries.add(beneficiaryMap);
+      });
+      await _saveBeneficiaries();
+
+      print("Total beneficiaries: ${_beneficiaries.length}");
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('${result['name']} added successfully!'),
+          backgroundColor: Colors.green,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+ Future<void> _saveBeneficiaries() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = _beneficiaries.map((e) => json.encode(e)).toList();
+    await prefs.setStringList("beneficiaries", data);
+  }
+  @override
+  Widget build(BuildContext context) {
+    final progress = (FundtransferScreen.score - FundtransferScreen.minLimit) / (FundtransferScreen.maxLimit - FundtransferScreen.minLimit);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -24,121 +67,262 @@ class FundtransferScreen extends StatelessWidget {
           Navigator.pop(context);
         },
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            // Sender Card (Top aligned)
-            Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(14),
-              ),
-              elevation: 5,
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min, // 👈 Compact card
-                  children: [
-                    // Top row
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {
-                              _showSenderPopup(context);
-                              debugPrint("Sender Details tapped");
-                            },
-                            child: const Text(
-                              "Sender Details",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.blue,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 0.5,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Sender Card (Top aligned)
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                elevation: 5,
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min, //  Compact card
+                    children: [
+                      // Top row
+                      Row(
+                        children: [
+                          Expanded(
+                            child: GestureDetector(
+                              onTap: () {
+                                _showSenderPopup(context);
+                                debugPrint("Sender Details tapped");
+                              },
+                              child: const Text(
+                                "Sender Details",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 0.5,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const Icon(
-                          Icons.power_settings_new_outlined,
-                          color: Colors.red,
-                        ),
-                      ],
-                    ),
-
-                    // Gauge (smaller)
-                    TweenAnimationBuilder<double>(
-                      tween: Tween(begin: 0, end: progress),
-                      duration: const Duration(milliseconds: 1500),
-                      curve: Curves.easeOut,
-                      builder: (context, value, _) {
-                        return _GaugeWidget(
-                          value:
-                              (minLimit + (maxLimit - minLimit) * value)
-                                  .round(),
-                          progress: value,
-                          min: minLimit,
-                          max: maxLimit,
-                        );
-                      },
-                    ),
-                    // Bottom info
-                    Row(
-                      children: const [
-                        Expanded(
-                          child: _InfoBlock(
-                            label: "Name",
-                            value: "Rohit Sharma",
-                            alignEnd: false,
+                          const Icon(
+                            Icons.power_settings_new_outlined,
+                            color: Colors.red,
                           ),
-                        ),
-                        Expanded(
-                          child: _InfoBlock(
-                            label: "Mobile Number",
-                            value: "8398966868",
-                            alignEnd: true,
+                        ],
+                      ),
+        
+                      // Gauge (smaller)
+                      TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0, end: progress),
+                        duration: const Duration(milliseconds: 1500),
+                        curve: Curves.easeOut,
+                        builder: (context, value, _) {
+                          return _GaugeWidget(
+                            value:
+                                (FundtransferScreen.minLimit + (FundtransferScreen.maxLimit - FundtransferScreen.minLimit) * value)
+                                    .round(),
+                            progress: value,
+                            min: FundtransferScreen.minLimit,
+                            max: FundtransferScreen.maxLimit,
+                          );
+                        },
+                      ),
+                      // Bottom info
+                      Row(
+                        children: const [
+                          Expanded(
+                            child: _InfoBlock(
+                              label: "Name",
+                              value: "Rohit Sharma",
+                              alignEnd: false,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                  ],
+                          Expanded(
+                            child: _InfoBlock(
+                              label: "Mobile Number",
+                              value: "8398966868",
+                              alignEnd: true,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
 
-            const SizedBox(height: 190),
-            // Send Button
-           Center(
+              const SizedBox(height: 10),
+              // Show beneficiaries section only if there are beneficiaries
+              if (_beneficiaries.isNotEmpty) ...[
+                const Text(
+                  "Your Beneficiaries",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 10),
+                // Beneficiaries List
+                GestureDetector(
+                  onTap: () => Get.toNamed('/pin_screen'),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _beneficiaries.length,
+                    itemBuilder: (context, index) {
+                      final beneficiary = _beneficiaries[index];
+                      return BeneficiaryCard(
+                        name: beneficiary['name'] as String,
+                        bankName: beneficiary['bank'] as String,
+                        ifscCode: beneficiary['ifsc'] as String,
+                        account: beneficiary['account'] as String,
+                        logo: beneficiary['logo'] as String,
+                        onDelete: () {
+                          _deleteBeneficiary(index);
+                        },
+                        onSend: () {
+                          _sendMoneyToBeneficiary(beneficiary);
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+              const SizedBox(height: 300),
+              // Add Beneficiary Button
+              Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Color(0xff0080FF),
-                    foregroundColor: Colors.black,
+                    backgroundColor: const Color(0xff0080FF),
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 90,
-                      vertical: 14,
+                      horizontal: 30,
+                      vertical: 12,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
-                  onPressed: () => Get.toNamed('/Add_Beneficiary'),
-                  child: Text(
-                    'Add Beneficiary',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+                  onPressed: _addNewBeneficiary, 
+                  child: const Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.add, color: Colors.white),
+                      SizedBox(width: 8),
+                      Text(
+                        'Add Beneficiary',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-          ],
+              const SizedBox(height: 10), // Bottom padding
+            ],
+          ),
         ),
       ),
     );
   }
 
+  //--------------------------- Delete Beneficiary--------------------------------
+  void _deleteBeneficiary(int index) {
+    // Show confirmation dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Delete Beneficiary'),
+          content: Text('Are you sure you want to delete ${_beneficiaries[index]['name']}?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _beneficiaries.removeAt(index);
+                });
+                Navigator.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Beneficiary deleted successfully'),
+                    backgroundColor: Colors.red,
+                    duration: Duration(seconds: 2),
+                  ),
+                );
+              },
+              child: const Text('Delete', style: TextStyle(color: Colors.red)),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  //--------------------------------Money Transfer Beneficiary--------------------------
+  void _sendMoneyToBeneficiary(Map<String, dynamic> beneficiary) {
+    final TextEditingController amountController = TextEditingController();
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        // title: const Text('Send Money'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('To: ${beneficiary['name']}'),
+            Text('Bank: ${beneficiary['bank']}'),
+            Text("Ifsc code: ${beneficiary['ifsc']}"),
+            Text('Account: ${beneficiary['account']}'),
+            const SizedBox(height: 15),
+            TextField(
+              controller: amountController,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                labelText: 'Enter Amount',
+                prefixIcon: Icon(Icons.currency_rupee),
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          // TextButton(
+          //   onPressed: () => Navigator.pop(context),
+          //   child: const Text('Cancel'),
+          // ),
+          ElevatedButton(
+           onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          SizedBox(width: 80,),
+          ElevatedButton(
+            onPressed: () {
+              if (amountController.text.isNotEmpty) {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('₹${amountController.text} sent to ${beneficiary['name']}'),
+                    backgroundColor: Colors.blue,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
+              }
+            },
+            child: const Text('Sends.  '),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //-------------------------Sender Details popup---------------------------------
   void _showSenderPopup(BuildContext context) {
     showDialog(
       context: context,
@@ -247,7 +431,6 @@ class FundtransferScreen extends StatelessWidget {
                                 size: 25,
                                 color: Colors.black,
                               ),
-
                             ],
                           ),
                         ),
@@ -345,22 +528,6 @@ class _GaugeWidget extends StatelessWidget {
                   ),
                 ),
               ],
-            ),
-          ),
-          Positioned(
-            bottom: 4,
-            left: 12,
-            child: Text(
-              "$min",
-              style: const TextStyle(fontSize: 11, color: Colors.black54),
-            ),
-          ),
-          Positioned(
-            bottom: 4,
-            right: 14,
-            child: Text(
-              "$max",
-              style: const TextStyle(fontSize: 11, color: Colors.black45),
             ),
           ),
         ],

@@ -80,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           _buildQuickLink(context, Icons.phone, 'Aeps', ()  => Get.toNamed('/AePS_screen'),),
-                          _buildQuickLink(context, Icons.campaign, 'DMT Transfer', () {}),
+                          _buildQuickLink(context, Icons.campaign, 'DMT Transfer', () => Get.toNamed('/dmt_login')),
                           _buildQuickLink(context, Icons.speaker, 'Fund Transfer', () => Get.toNamed('/Fund_Login')),
                           _buildQuickLink(context, Icons.transform_rounded, 'UPI Transfer', () {}),
                           _buildQuickLink(context, Icons.card_membership, 'Credit Card Bill Payment', () {}),

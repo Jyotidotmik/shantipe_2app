@@ -28,9 +28,12 @@ import 'package:shantipe_2app/Screen/QR_Scanner/QR_Scanner.dart';
 import 'package:shantipe_2app/Screen/View/SingUp_Screen.dart';
 import 'package:shantipe_2app/Screen/View/Splash_Screen.dart';
 import '../../Screen/APeS/AePS_Screen.dart';
+import '../../Screen/DMT_Transfer/View/DMT_Login_Screen.dart';
+import '../../Screen/DMT_Transfer/View/Register_Screen.dart';
 import '../../Screen/Fund Transfer/Add_Beneficiary.dart';
 import '../../Screen/Fund Transfer/FundLogin_Screen.dart';
 import '../../Screen/Fund Transfer/FundTransfer_Screen.dart';
+import '../../Screen/Fund Transfer/Payment_Screen.dart';
 import '../../Screen/Fund Transfer/Register_Screen.dart';
 import '../../Screen/Profiles/Invoices/Invoice_Screen.dart';
 import '../../Screen/Reports/Reports_Screen.dart' show ReportScreen;
@@ -38,9 +41,8 @@ import '../../Screen/Slider/CDM/CDM_Card_Screen.dart';
 import '../../Screen/Slider/Fund Request/FundRequest_Screen.dart';
 import '../../Screen/Slider/Fund Request/Payment_Send.dart';
 import '../../Screen/Slider/Noted_Screen.dart';
-import '../../Screen/Slider/Receive_Screen.dart';
-import '../../Screen/Slider/TransactionHistory.dart'
-    show TransactionHistoryScreen;
+import '../../Screen/Slider/Receive_Screen.dart';  
+import '../../Screen/Slider/TransactionHistory.dart';
 import '../../Screen/Slider/Transfer_Screen.dart';
 
 class AppRoutes {
@@ -85,7 +87,7 @@ class AppRoutes {
     GetPage(name: '/Receive', page: () => ReceiveScreen()),
     GetPage(name: '/card_screen', page: () => AddNewCardScreen()),
     GetPage(name: "/transfer", page: () => TransferScreen()),
-    GetPage(name: "/history", page: () => TransactionHistoryScreen()),
+    GetPage(name: "/history", page: () => PaymentHistoryScreen()),
     GetPage(name: "/fund_request", page: () => BankCardDropdownScreen()),
     GetPage(
       name: '/payment_send',
@@ -109,6 +111,11 @@ class AppRoutes {
     GetPage(name: '/FundTransfer_Screen', page: () => FundtransferScreen()),
     GetPage(name: '/Fund_Resister', page: () => fundTransferRegister(
       mobile: '', contactKeyEncoded: '', fromScreen: '',),),
-      GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary()),
+    GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary()),
+    GetPage(name: '/pin_screen', page: ()=>TransferToBankScreen()),
+    //-------------------------------DMT Transfer-----------------------------------------------
+    GetPage(name: '/dmt_login', page: () =>DmtLoginScreen()),
+    GetPage(name: '/dmt_register', page: () =>RegisterScreen(mobile: '',)),
+
   ];
 }
