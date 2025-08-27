@@ -264,7 +264,7 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _buildActionButton(Icons.savings, "Save", ()  {}),
-                 _buildActionButton(Icons.history, "History", () => Get.toNamed('/history'),),
+                _buildActionButton(Icons.history, "History", () => Get.toNamed('/history'),),
                 _buildActionButton(Icons.report, "Reports", () => Get.toNamed('/reports')),
                 _buildActionButton(Icons.account_balance, "Transfer", () => Get.toNamed('/transfer'),),
               ],

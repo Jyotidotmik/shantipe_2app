@@ -406,11 +406,11 @@ class _AddBeneficiaryState extends State<AddBeneficiary> {
                     bank["name"]!,
                     style: const TextStyle(fontWeight: FontWeight.w500),
                   ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                    color: Colors.blue,
-                  ),
+                  // trailing: const Icon(
+                  //   Icons.arrow_forward_ios,
+                  //   size: 16,
+                  //   color: Colors.blue,
+                  // ),
                   onTap: () {
                     _showBankDetails(context, bank);
                   },

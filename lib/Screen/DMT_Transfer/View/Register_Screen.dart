@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../../Utils/Custom_AppBar.dart';
 import '../../Fund Transfer/Widget/Custom_TextField.dart';
@@ -61,9 +62,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     maxLength: 12,
                     isNumber: true,
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 50),
                   DmtCustomButton(
-                    onPressed:(){},
+                    onPressed:() =>Get.toNamed('/dmt_dashboard'),
                     label: "Submit",
                   ),
                 ],

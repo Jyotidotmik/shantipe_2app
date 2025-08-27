@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ignore: unused_element
 class BeneficiaryCard extends StatelessWidget {
   final String name;
   final String bankName;
@@ -11,6 +10,7 @@ class BeneficiaryCard extends StatelessWidget {
   final VoidCallback onSend;
 
   const BeneficiaryCard({
+    super.key,
     required this.name,
     required this.bankName,
     required this.ifscCode,
@@ -23,60 +23,34 @@ class BeneficiaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      elevation: 3,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 2,
+      child: ListTile(
+        leading: CircleAvatar(
+          backgroundImage: NetworkImage(logo),
+        ),
+        title: Text(
+          name,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 24,
-                  backgroundColor: Colors.grey.shade100,
-                  backgroundImage: NetworkImage(logo),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        name,
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        bankName,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade700,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        "A/C: $account",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Colors.grey.shade600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.delete, color: Colors.red),
-                  onPressed: onDelete,
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
+            Text("Bank: $bankName"),
+            Text("A/c: $account"),
+            Text("IFSC: $ifscCode"), // ✅ अब IFSC भी दिखेगा
           ],
         ),
+        trailing: IconButton(
+          icon: const Icon(Icons.delete, color: Colors.red),
+          onPressed: onDelete,
+        ),
+        onTap: onSend, // ✅ Card पर tap → सीधे payment पर जाएगा
       ),
     );
   }

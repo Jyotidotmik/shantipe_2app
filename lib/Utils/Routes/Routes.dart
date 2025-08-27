@@ -28,6 +28,7 @@ import 'package:shantipe_2app/Screen/QR_Scanner/QR_Scanner.dart';
 import 'package:shantipe_2app/Screen/View/SingUp_Screen.dart';
 import 'package:shantipe_2app/Screen/View/Splash_Screen.dart';
 import '../../Screen/APeS/AePS_Screen.dart';
+import '../../Screen/DMT_Transfer/View/DMT_Dashboard.dart';
 import '../../Screen/DMT_Transfer/View/DMT_Login_Screen.dart';
 import '../../Screen/DMT_Transfer/View/Register_Screen.dart';
 import '../../Screen/Fund Transfer/Add_Beneficiary.dart';
@@ -112,10 +113,11 @@ class AppRoutes {
     GetPage(name: '/Fund_Resister', page: () => fundTransferRegister(
       mobile: '', contactKeyEncoded: '', fromScreen: '',),),
     GetPage(name: '/Add_Beneficiary', page: () =>AddBeneficiary()),
-    GetPage(name: '/pin_screen', page: ()=>TransferToBankScreen()),
+    GetPage(name: '/pin_screen', page: ()=>TransferToBankScreen(beneficiary: {},)),
     //-------------------------------DMT Transfer-----------------------------------------------
     GetPage(name: '/dmt_login', page: () =>DmtLoginScreen()),
     GetPage(name: '/dmt_register', page: () =>RegisterScreen(mobile: '',)),
+    GetPage(name: "/dmt_dashboard", page: () =>DmtDashboard()),
 
   ];
 }

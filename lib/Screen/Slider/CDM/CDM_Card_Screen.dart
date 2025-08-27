@@ -366,7 +366,7 @@ class SettingsItem extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Icon(icon, color: Colors.indigo, size: 26),
+            Icon(icon, color: Colors.blue, size: 26),
             const SizedBox(width: 16),
             Expanded(
               child: Text(
